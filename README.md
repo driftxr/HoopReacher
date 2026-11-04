@@ -4,7 +4,7 @@ _README updated: October 28, 2026_
 
 **1. WHAT THIS FILE IS**
 --------------------
-NBA-26-27-Predictions.html is a self-contained, interactive copy of the NBA
+index.html is a self-contained, interactive copy of the NBA
 dashboard. Its page templates, styling, scripts, fonts, and saved data are
 embedded in one HTML file. Internal pages display inside an embedded frame.
 
