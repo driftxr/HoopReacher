@@ -9,8 +9,8 @@ dashboard. Its page templates, styling, scripts, fonts, and saved data are
 embedded in one HTML file. Internal pages display inside an embedded frame.
 
 This is a saved snapshot, not a continuously updating live service. An internet
-connection is not needed to browse the included data. No Node.js installation,
-local server, account, or additional project files are required for viewing.
+connection is not needed to browse the included data. No Node.js installations,
+local servers, accounts, or additional project files are required for viewing.
 
 **2. NAVIGATION AND CONTROLS**
 -------------------------
