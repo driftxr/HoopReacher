@@ -14,7 +14,7 @@ local servers, accounts, or additional project files are required for viewing.
 
 **2. NAVIGATION AND CONTROLS**
 -------------------------
-- Click or tap the circular menu button to open Live Predictions, Current
+- Click or tap the hamburger menu button to open Live Predictions, Current
   Standings, and Today's Schedule. Hover reveals the Menu label on desktop.
 - Click outside the menu, or press Escape, to close it.
 - Click a team name to open its included team page.
