@@ -2,7 +2,7 @@ NBA 2026-27 PREDICTIONS on HoopReacher.com
 =======================================
 _README updated: October 28, 2026_
 
-**1. WHAT THIS FILE IS**
+**1. DESCRIPTION**
 --------------------
 HoopReacher is a self-contained, interactive copy of an NBA predictions
 dashboard. Its page templates, styling, scripts, fonts, and saved data are
