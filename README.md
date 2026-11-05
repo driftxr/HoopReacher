@@ -1,10 +1,10 @@
-NBA 2026-27 PREDICTIONS - STANDALONE HTML
+NBA 2026-27 PREDICTIONS on HoopReacher.com
 =======================================
 _README updated: October 28, 2026_
 
 **1. WHAT THIS FILE IS**
 --------------------
-index.html is a self-contained, interactive copy of the NBA
+HoopReacher is a self-contained, interactive copy of an NBA predictions
 dashboard. Its page templates, styling, scripts, fonts, and saved data are
 embedded in one HTML file. Internal pages display inside an embedded frame.
 
