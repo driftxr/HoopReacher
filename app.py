@@ -92,9 +92,7 @@ def create_app(nba=None):
         return page('standings.html','Current Standings',[result],STANDINGS_TTL,conferences=conferences,teams=BY_ID)
 
     def games_for_phase(rows):
-        # NBA game ID prefixes: 001 preseason, 002 regular season; omit playoffs and Cup final.
-        prefix='002'
-        return [r for r in rows if str(r['gameId']).startswith(prefix)]
+        return [r for r in rows if r.get('seasonType') == 2]
 
     @app.get('/today')
     def today():
@@ -168,7 +166,7 @@ def create_app(nba=None):
 
     @app.get('/game/<game_id>')
     def game(game_id):
-        if not re.fullmatch(r'002\d{7}',game_id):
+        if not re.fullmatch(r'\d{9,10}',game_id):
             abort(404)
         result=nba.game(game_id)
         data=result['data'] or {'players':[],'teams':[]}

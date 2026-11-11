@@ -6,7 +6,7 @@ Personal NBA standings picks with a static website at https://hoopreacher.com/.
 
 GitHub Actions runs the Python generator on pushes to main, manually from Actions, and at 00:17, 06:17, 12:17, and 18:17 UTC. Standings/rosters are cached for 12 hours; schedules, scores and averages for 6 hours. Scheduled jobs can be delayed. Set Settings → Pages → Source to GitHub Actions. No personal server is required.
 
-A build must successfully retrieve all required NBA data before deployment. If NBA access fails from GitHub, the previous public website stays online; inspect the failed Actions run. Cache persistence is best-effort, so cache eviction can trigger an earlier refresh.
+A build must successfully retrieve all required ESPN data before deployment. If ESPN access fails from GitHub, the previous public website stays online; inspect the failed Actions run. Cache persistence is best-effort, so cache eviction can trigger an earlier refresh.
 
 Only generated dist/ files are deployed. CNAME preserves the custom domain. Personal picks live in the visitor's browser and can be imported/exported; they are not stored in this repository.
 
@@ -21,3 +21,7 @@ python3 -m venv .venv
 ```
 
 Edit templates/, static/, and personalize.py; the next successful build publishes those changes. The existing root index.html is retained as the legacy site and is not the Actions deployment artifact.
+
+## Data source
+
+ESPN public JSON feeds supply standings, team rosters, schedules and box scores. Team player averages are calculated from completed regular-season box scores, excluding DNPs; shooting percentages use total makes/attempts. Existing NBA team identifiers are retained for saved-pick compatibility. These public feeds have no guaranteed availability; failed refreshes preserve the previous deployment.

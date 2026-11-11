@@ -32,7 +32,7 @@ class Snapshot:
         if key not in self.memo:
             result=getattr(self.nba,name)(*args)
             if result['data'] is None: raise RuntimeError(f'Missing {key}; export stopped to preserve previous site')
-            if result.get('error'): raise RuntimeError(f'NBA refresh failed for {key}; keeping the previously published site')
+            if result.get('error'): raise RuntimeError(f'ESPN refresh failed for {key}; keeping the previously published site')
             self.memo[key]=result
         return self.memo[key]
     def standings(self,*a):return self.call('standings',*a)
@@ -49,7 +49,7 @@ def main():
     source=Snapshot(NBA(Cache(os.getenv('NBA_CACHE',str(ROOT/'instance/nba.sqlite3'))),os.getenv('NBA_SEASON','2026-27')))
     app=create_app(source);client=app.test_client()
     source.standings('Regular Season')
-    games=[g for g in source.schedule()['data'] if str(g['gameId']).startswith('002')]
+    games=[g for g in source.schedule()['data'] if g.get('seasonType') == 2]
     by_game={g['gameId']:g for g in games}
     # Future games have no box score to retrieve yet.
     for game in games:
@@ -92,7 +92,7 @@ def main():
         for field in soup.select('input[name="back"], input[name="view"]'):field.decompose()
         footer=soup.select_one('footer.notes')
         if footer:
-            p=footer.find('p');p.clear();p.append('Source: NBA.com through nba_api. Static snapshot; data updates when a new export is published.')
+            p=footer.find('p');p.clear();p.append('Source: ESPN. Static snapshot; data updates when a new export is published.')
         script=soup.new_tag('script',src='assets/static-site.js',defer=True);soup.body.append(script)
         for style in soup.select('link[rel="stylesheet"]'):style['href']='assets/style.css'
         if daily_games is not None:soup.body['data-page']='daily'
