@@ -79,3 +79,6 @@ body,main,.roster-table,.schedule-table,.game-stats-table{font-family:'Montserra
 /* Readable text tints of the conference colours on slate table rows. */
 #conference-panel-East .team-picker-name{color:#dba3ae!important}
 #conference-panel-West .team-picker-name{color:#a7d3b3!important}
+
+/* Blend the header ribbon into the page background. */
+.site-ribbon{background:#080808}
