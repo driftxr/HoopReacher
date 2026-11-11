@@ -5,6 +5,7 @@ import sqlite3
 import threading
 import time
 from pathlib import Path
+from requests.exceptions import Timeout, ConnectionError
 from nba_api.stats.static import teams
 from nba_api.stats.endpoints import (leaguestandingsv3, scheduleleaguev2,
     commonteamroster, leaguedashplayerstats, boxscoretraditionalv3)
@@ -39,7 +40,16 @@ class Cache:
             stale = updated is None or now - updated >= ttl
             if stale and now >= retry:
                 try:
-                    value = json.dumps(loader(), allow_nan=False)
+                    for attempt in range(2):
+                        try:
+                            loaded = loader()
+                            break
+                        except (Timeout, ConnectionError):
+                            if attempt == 1:
+                                raise
+                            logging.warning("Retrying NBA request for %s", key)
+                            time.sleep(5)
+                    value = json.dumps(loaded, allow_nan=False)
                     updated, retry, stale = now, 0, False
                 except Exception:
                     logging.exception('NBA request failed for %s', key)
@@ -55,7 +65,7 @@ class NBA:
 
     def standings(self, phase):
         def load():
-            rows = records(leaguestandingsv3.LeagueStandingsV3(season=self.season, season_type=phase, timeout=15).standings)
+            rows = records(leaguestandingsv3.LeagueStandingsV3(season=self.season, season_type=phase, timeout=30).standings)
             # Preseason responses can include international exhibition opponents.
             rows = [r for r in rows if r['TeamID'] in BY_ID]
             if len({r['TeamID'] for r in rows}) != 30:
@@ -65,19 +75,19 @@ class NBA:
 
     def schedule(self):
         return self.cache.get(f'{self.season}:schedule', SCORES_TTL, lambda: records(
-            scheduleleaguev2.ScheduleLeagueV2(season=self.season, timeout=15).season_games))
+            scheduleleaguev2.ScheduleLeagueV2(season=self.season, timeout=30).season_games))
 
     def roster(self, team):
         return self.cache.get(f'{self.season}:roster:{team}', STANDINGS_TTL, lambda: records(
-            commonteamroster.CommonTeamRoster(team_id=team, season=self.season, timeout=15).common_team_roster))
+            commonteamroster.CommonTeamRoster(team_id=team, season=self.season, timeout=30).common_team_roster))
 
     def averages(self, team, phase):
         return self.cache.get(f'{self.season}:averages:{team}:{phase}', SCORES_TTL, lambda: records(
             leaguedashplayerstats.LeagueDashPlayerStats(team_id_nullable=team, season=self.season,
-                season_type_all_star=phase, per_mode_detailed='PerGame', timeout=15).league_dash_player_stats))
+                season_type_all_star=phase, per_mode_detailed='PerGame', timeout=30).league_dash_player_stats))
 
     def game(self, game_id):
         def load():
-            endpoint = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=game_id, timeout=15)
+            endpoint = boxscoretraditionalv3.BoxScoreTraditionalV3(game_id=game_id, timeout=30)
             return {'players': records(endpoint.player_stats), 'teams': records(endpoint.team_stats)}
         return self.cache.get(f'game:{game_id}', SCORES_TTL, load)
