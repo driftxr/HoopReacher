@@ -100,3 +100,9 @@ main{padding-right:max(84px,calc(env(safe-area-inset-right) + 64px))}
 .live-menu .live-nav a{color:#fff;background:transparent}
 .live-menu .live-nav a:hover,.live-menu .live-nav a:focus-visible,.live-menu .live-nav a[aria-current="page"]{color:#e5703d;background:transparent}
 @media(max-width:800px){main{padding-right:max(80px,calc(env(safe-area-inset-right) + 64px))}}
+
+/* Slightly narrower side gutters, with room for both floating controls. */
+main{padding-left:72px;padding-right:max(72px,calc(env(safe-area-inset-right) + 60px))}
+.sticky-brand-mark{left:20px}
+.live-menu{right:max(12px,env(safe-area-inset-right))}
+@media(max-width:800px){main{padding-left:60px;padding-right:max(68px,calc(env(safe-area-inset-right) + 56px))}.sticky-brand-mark{left:12px}.live-menu{right:max(8px,env(safe-area-inset-right))}}
