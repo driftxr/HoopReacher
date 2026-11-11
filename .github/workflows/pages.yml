@@ -2,7 +2,7 @@ name: Refresh and publish HoopReacher
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 */6 * * *'
+    - cron: '17 * * * *'
   push:
     branches: [main]
 permissions:
@@ -29,7 +29,7 @@ jobs:
           key: espn-data-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: espn-data-
       - name: Refresh ESPN data and generate static pages
-        run: python -u export_static.py --output dist
+        run: python -u export_static.py --output dist --refresh
       - uses: actions/cache/save@v4
         if: always()
         with:

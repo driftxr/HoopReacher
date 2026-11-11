@@ -14,8 +14,8 @@ from zoneinfo import ZoneInfo
 import requests
 from requests.exceptions import Timeout, ConnectionError
 
-STANDINGS_TTL = 12 * 60 * 60
-SCORES_TTL = 6 * 60 * 60
+STANDINGS_TTL = 60 * 60
+SCORES_TTL = 60 * 60
 TEAM_LIST = json.loads(Path(__file__).with_name('teams.json').read_text())
 TEAMS = {t['abbreviation']: t for t in TEAM_LIST}
 BY_ID = {t['id']: t for t in TEAM_LIST}

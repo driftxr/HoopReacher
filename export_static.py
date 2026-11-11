@@ -3,6 +3,7 @@ import argparse
 import json
 import os
 import shutil
+import sqlite3
 import time
 from datetime import datetime
 from pathlib import Path
@@ -42,11 +43,16 @@ class Snapshot:
     def game(self,*a):return self.call('game',*a)
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--output',default='dist');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--output',default='dist');parser.add_argument('--refresh',action='store_true',help='Refresh all ESPN data for this publication');args=parser.parse_args()
     target=Path(args.output).resolve();stage=target.with_name(target.name+'-building')
     stage.mkdir(parents=True,exist_ok=True)
     shutil.copytree(ROOT/'static',stage/'assets',dirs_exist_ok=True)
-    source=Snapshot(NBA(Cache(os.getenv('NBA_CACHE',str(ROOT/'instance/nba.sqlite3'))),os.getenv('NBA_SEASON','2026-27')))
+    cache=Cache(os.getenv('NBA_CACHE',str(ROOT/'instance/nba.sqlite3')))
+    if args.refresh:
+        # Each publishing run gets fresh data even if the previous run started late.
+        with sqlite3.connect(cache.path) as db:
+            db.execute("UPDATE cache SET updated=NULL, retry=0 WHERE key LIKE 'espn-%'")
+    source=Snapshot(NBA(cache,os.getenv('NBA_SEASON','2026-27')))
     app=create_app(source);client=app.test_client()
     source.standings('Regular Season')
     games=[g for g in source.schedule()['data'] if g.get('seasonType') == 2]
@@ -92,7 +98,7 @@ def main():
         for field in soup.select('input[name="back"], input[name="view"]'):field.decompose()
         footer=soup.select_one('footer.notes')
         if footer:
-            p=footer.find('p');p.clear();p.append('Source: ESPN. Static snapshot; data updates when a new export is published.')
+            p=footer.find('p');p.clear();p.append('Source: ESPN. Updates are scheduled hourly; published data may lag live games.')
         script=soup.new_tag('script',src='assets/static-site.js',defer=True);soup.body.append(script)
         for style in soup.select('link[rel="stylesheet"]'):style['href']='assets/style.css'
         if daily_games is not None:soup.body['data-page']='daily'
@@ -105,7 +111,7 @@ def main():
 
     save('/');save('/standings')
     with app.test_request_context('/today'):
-        daily=render_template('schedule.html',title='Daily Schedule',season=source.nba.season,phase='Regular Season',errors=[],updated=datetime.fromtimestamp(source.schedule()['updated'],EASTERN).strftime('%b %d, %Y · %I:%M %p %Z'),interval=21600,games=games,date=datetime.now(EASTERN).date().isoformat(),team=None)
+        daily=render_template('schedule.html',title='Daily Schedule',season=source.nba.season,phase='Regular Season',errors=[],updated=datetime.fromtimestamp(source.schedule()['updated'],EASTERN).strftime('%b %d, %Y · %I:%M %p %Z'),interval=3600,games=games,date=datetime.now(EASTERN).date().isoformat(),team=None)
     save('/today',daily,games)
     for abbr in TEAMS:
         print('Exporting '+abbr,flush=True)
