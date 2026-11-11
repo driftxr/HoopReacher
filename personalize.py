@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 def personalize(soup, rows, season):
     soup.body['class']=list(soup.body.get('class',[]))+['personal-picks']
-    soup.title.string='Your NBA Top 10: '+season.replace('-','/')+' NBA Predictions'
+    soup.title.string='HoopReacher'
     soup.select_one('h1').string='Your NBA Top 10'
     header=soup.select_one('main > header')
     subtitle=soup.new_tag('p',attrs={'class':'intro'});subtitle.string=season.replace('-','/')+' NBA Predictions';header.append(subtitle)
