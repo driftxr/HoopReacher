@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+instance/
+dist/
+dist-building/
+*.pyc
+.DS_Store
+nba-picks-*.json
+*.zip

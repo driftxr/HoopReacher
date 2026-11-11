@@ -1,0 +1,4 @@
+<nav class="team-switch" aria-label="Team views">
+  <a href="{{ url_for('team', abbr=team.abbreviation, back=team_base) }}" {% if request.args.get('view') != 'schedule' %}aria-current="page"{% endif %}>Roster</a>
+  <a href="{{ url_for('team', abbr=team.abbreviation, back=team_base, view='schedule') }}" {% if request.args.get('view') == 'schedule' %}aria-current="page"{% endif %}>Schedule</a>
+</nav>

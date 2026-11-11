@@ -1,0 +1,10 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="{{ interval }}"><title>{{ title }}</title><link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}"></head><body><header class="site-ribbon"><a class="site-brand" href="{{ url_for('home') }}" aria-label="HoopReacher home">HoopReacher</a><nav aria-label="Main pages"><a href="{{ url_for('home') }}">Predictions</a><a href="{{ url_for('standings') }}">Standings</a><a href="{{ url_for('today') }}">Daily schedule</a></nav></header><main>
+<details class="live-menu"><summary aria-label="Main menu"><span class="hamburger" aria-hidden="true"><span></span><span></span><span></span></span><span class="live-menu-label" aria-hidden="true">Menu</span></summary><nav class="live-nav" aria-label="Main navigation"><a href="{{ url_for('home') }}">Predictions</a><a href="{{ url_for('standings') }}">Standings</a><a href="{{ url_for('today') }}">Daily schedule</a></nav></details>
+{% set team_base = request.args.get('back', 'home') %}
+{% if team_base not in ['home', 'standings'] %}{% set team_base = 'home' %}{% endif %}
+{% if team is defined and team %}<a class="back-link" href="{{ url_for(team_base) }}">← Back to {{ 'Standings' if team_base == 'standings' else 'Predictions' }}</a>{% endif %}
+<header><div class="eyebrow">THE SEASON / {{ season }}</div><h1>{{ title }}</h1></header>
+{% for error in errors %}<p class="status error" role="status">{{ error }}</p>{% endfor %}
+{% block content %}{% endblock %}
+<footer class="notes"><p>Source: <a href="https://www.nba.com/stats">NBA.com</a> through <a href="https://github.com/swar/nba_api">nba_api</a>. Standings refresh every 12 hours; schedules, scores and player averages every 6 hours. Rosters refresh every 12 hours.</p><p>Last successful update{% if updated %}: {{ updated }}{% else %}: none yet{% endif %}.</p></footer>
+</main><script src="{{ url_for('static',filename='menu.js') }}" defer></script></body></html>
