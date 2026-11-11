@@ -15,3 +15,8 @@
 .roster-table .player-position{color:#f0ece1}
 @media(max-width:700px){.sticky-brand-mark{left:16px;top:12px;width:30px;height:35px}.sticky-brand-mark img{width:30px;height:35px}.site-ribbon .site-brand{margin-left:42px}}
 @media(prefers-reduced-motion:reduce){.site-ribbon{transition:none}}
+/* Override the legacy all-table cream rule, including header arrow spans. */
+.roster-table .player-name,
+.roster-table :is(th,td):is(:nth-child(5),:nth-child(6),:nth-child(7)),
+.roster-table th:is(:nth-child(2),:nth-child(5),:nth-child(6),:nth-child(7)) :is(button,a,span){color:#e5703d!important}
+.roster-table .player-position{color:#f0ece1!important}
