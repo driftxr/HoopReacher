@@ -4,7 +4,7 @@
   const base = query.get('back') === 'standings' ? 'standings' : 'home';
   if (document.body.dataset.page === 'team') {
     const back = document.querySelector('.back-link');
-    if (back) { back.href = base === 'standings' ? 'standings.html' : 'index.html'; back.textContent = '← Back to ' + (base === 'standings' ? 'Standings' : 'Predictions'); }
+    if (back) { back.href = base === 'standings' ? 'standings.html' : 'index.html'; back.textContent = '← Back to ' + (base === 'standings' ? 'Standings' : 'Picks'); }
     document.querySelectorAll('.team-switch a').forEach(a => { const url = new URL(a.href); url.searchParams.set('back', base); a.href = url.href; });
   }
   document.querySelectorAll('table').forEach(table => {

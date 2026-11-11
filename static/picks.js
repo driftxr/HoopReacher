@@ -33,7 +33,7 @@
       if(focus)tabButtons[conf].focus();
     };
     for(const conf of ['East','West']){
-      const tab=el('button',conf+'ern Conference');tab.type='button';tab.id='conference-tab-'+conf;tab.setAttribute('role','tab');tab.setAttribute('aria-controls','conference-panel-'+conf);
+      const tab=el('button',conf==='East'?'BITE':'BITW');tab.type='button';tab.id='conference-tab-'+conf;tab.setAttribute('role','tab');tab.setAttribute('aria-label',conf==='East'?'BITE — Eastern Conference':'BITW — Western Conference');tab.setAttribute('aria-controls','conference-panel-'+conf);
       tab.onclick=()=>activate(conf);
       tab.onkeydown=event=>{
         if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
@@ -50,7 +50,7 @@
         const row=el('tr');if(gap===0)row.className='match';row._values=[i+1,team?team.TeamCity+' '+team.TeamName:null,rank,team?team.WINS*1000-team.LOSSES:null,team?.WinPCT??null,gap];row.append(el('td',i+1));
         const cell=el('td'),select=el('select');select.setAttribute('aria-label',conf+' pick '+(i+1));const empty=el('option','Choose team');empty.value='';select.append(empty);
         teams.filter(t=>t.Conference===conf).sort((a,b)=>(a.TeamCity+a.TeamName).localeCompare(b.TeamCity+b.TeamName)).forEach(t=>{const option=el('option',t.TeamCity+' '+t.TeamName);option.value=String(t.TeamID);option.selected=t.TeamID===id;option.disabled=picks[conf].includes(t.TeamID)&&t.TeamID!==id;select.append(option);});
-        select.onchange=()=>{const value=select.value?Number(select.value):null;if(value!==null&&picks[conf].some((v,j)=>j!==i&&v===value))return;picks[conf][i]=value;persist();render();document.querySelector(`[aria-label="${conf} pick ${i+1}"]`).focus();};cell.append(select);row.append(cell,el('td',rank??'—'),el('td',team?team.WINS+'–'+team.LOSSES:'—'),el('td',team?(team.WinPCT*100).toFixed(1)+'%':'—'),el('td',gap===null?'—':gap===0?'Match':gap));body.append(row);
+        select.onchange=()=>{const value=select.value?Number(select.value):null;if(value!==null&&picks[conf].some((v,j)=>j!==i&&v===value))return;picks[conf][i]=value;persist();render();document.querySelector(`[aria-label="${conf} pick ${i+1}"]`).focus();};const picker=el('label');picker.className='team-picker';const selectedName=el('span',team?team.TeamCity+' '+team.TeamName:'Choose team');selectedName.className='team-picker-name';selectedName.setAttribute('aria-hidden','true');picker.append(selectedName,select);cell.append(picker);row.append(cell,el('td',rank??'—'),el('td',team?team.WINS+'–'+team.LOSSES:'—'),el('td',team?(team.WinPCT*100).toFixed(1)+'%':'—'),el('td',gap===null?'—':gap===0?'Match':gap));body.append(row);
       });wrap.append(table);section.append(wrap);root.append(section);
     }
     activate(activeConference);

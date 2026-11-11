@@ -44,6 +44,11 @@ def create_app(nba=None):
     def number(value):
         return '—' if value is None else f'{value:g}' if isinstance(value, (float,int)) else value
 
+    @app.template_filter('short_name')
+    def short_name(value):
+        parts = str(value or '').strip().split()
+        return parts[0][0] + '. ' + ' '.join(parts[1:]) if len(parts) > 1 else str(value or '')
+
     @app.template_filter('percent')
     def percent(value):
         return '—' if value is None else f'{value*100:.1f}%'
@@ -56,7 +61,7 @@ def create_app(nba=None):
             dt = datetime.fromisoformat(value.replace('Z','+00:00'))
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=ZoneInfo('UTC'))
-            return dt.astimezone(EASTERN).strftime('%b %d, %Y · %I:%M %p %Z')
+            return dt.astimezone(EASTERN).strftime('%m/%d; %I:%M%p')
         except ValueError:
             return value
 

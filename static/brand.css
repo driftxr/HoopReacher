@@ -20,3 +20,62 @@
 .roster-table :is(th,td):is(:nth-child(5),:nth-child(6),:nth-child(7)),
 .roster-table th:is(:nth-child(2),:nth-child(5),:nth-child(6),:nth-child(7)) :is(button,a,span){color:#e5703d!important}
 .roster-table .player-position{color:#f0ece1!important}
+
+/* Keep a clear black rail beside every card and table for the fixed logo. */
+main{box-sizing:border-box;width:100%;max-width:1480px;margin:0 auto;padding:132px 28px 110px 84px;min-width:0}
+main>header h1,.conference-title h2,.team-section h2{font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:-.035em}
+.personal-picks main>header .intro{font-size:clamp(22px,3vw,30px);line-height:1.35;margin-top:16px}
+.personal-picks #pick-status{font-size:16px}
+.site-ribbon{box-sizing:border-box;min-height:96px;padding:22px 28px 14px;align-items:center;flex-wrap:nowrap;gap:24px}
+.site-ribbon .site-brand{margin-left:52px;line-height:1.25}
+.sticky-brand-mark{top:22px;left:28px;width:36px;height:42px}
+.sticky-brand-mark img{width:36px;height:42px}
+.site-ribbon nav{width:auto;gap:20px;align-items:center;justify-content:flex-end}
+.site-ribbon nav a{padding:8px 0;border-bottom:2px solid transparent;white-space:nowrap}
+.site-ribbon nav a:hover,.site-ribbon nav a:focus-visible,.site-ribbon nav a[aria-current="page"]{background:transparent;color:#e5703d;border-bottom-color:#e5703d}
+.live-nav a[aria-current="page"]{color:#e5703d;text-decoration:underline;text-underline-offset:6px}
+.roster-table :is(th,td):not(:nth-child(2)),.game-stats-table :is(th,td):not(:first-child){text-align:center}
+.roster-table :is(th,td),.game-stats-table :is(th,td){padding:14px 10px}
+.roster-table :is(th,td):nth-child(2),.game-stats-table :is(th,td):first-child{white-space:normal;min-width:140px;max-width:190px;text-align:left}
+.roster-table .player-name,.roster-table .player-position{white-space:normal}
+.game-stats-table{min-width:720px}
+.game-stats-table :is(th,td):is(:nth-child(2),:nth-child(3)){min-width:46px;width:46px;padding-left:6px;padding-right:6px}
+.schedule-table{width:100%;min-width:0;table-layout:fixed}
+.schedule-table :is(th,td){text-align:center;white-space:normal;overflow-wrap:normal;padding:14px 8px}
+.schedule-table th{font-size:17px;letter-spacing:0}
+.daily-schedule-table th:first-child{width:40%}
+.team-schedule-table th:first-child{width:30%}
+.team-schedule-table th:last-child{width:30%}
+.schedule-table .game-result-win{color:#6ee7a0!important}
+.schedule-table .game-result-loss{color:#ff8294!important}
+.personal-picks #pick-conferences table{min-width:560px;width:100%;table-layout:fixed}
+.personal-picks #pick-conferences :is(th,td){padding:14px 8px;text-align:center;white-space:normal}
+.personal-picks #pick-conferences :is(th,td):nth-child(2){width:170px;text-align:left}
+.personal-picks #pick-conferences th:first-child{width:50px}
+.personal-picks #pick-conferences .team-picker{display:block;position:relative;min-height:44px;width:100%;margin:0;font:inherit;cursor:pointer}
+.personal-picks #pick-conferences .team-picker-name{display:block;white-space:normal;overflow-wrap:normal;padding:8px 22px 8px 0;font-weight:600;line-height:1.4}
+.personal-picks #pick-conferences .team-picker::after{content:'⌄';position:absolute;right:4px;top:10px;pointer-events:none}
+.personal-picks #pick-conferences .team-picker select{position:absolute;inset:0;opacity:0;width:100%;height:100%;padding:0;max-width:none;cursor:pointer}
+.personal-picks #pick-conferences .team-picker:focus-within{outline:2px solid #e5703d;outline-offset:2px}
+#conference-panel-East .team-picker-name{color:#533138!important}
+#conference-panel-West .team-picker-name{color:#4d835c!important}
+@media(max-width:800px){
+ .site-ribbon{display:flex;flex-direction:column;align-items:stretch;gap:22px;padding:30px 20px 22px 16px;min-height:218px}
+ .site-ribbon .site-brand{align-self:flex-start;margin-left:46px;font-size:24px;line-height:30px}
+ .sticky-brand-mark{left:16px;top:20px;width:32px;height:37.333px}.sticky-brand-mark img{width:32px;height:37.333px}
+ .site-ribbon nav{display:flex;flex-direction:column;align-items:flex-end;gap:4px;width:100%;margin:0}
+ .site-ribbon nav a{font-size:16px;padding:6px 0;line-height:1.4}
+ main{padding:258px 16px 90px 64px}
+ main>header h1{font-size:clamp(27px,6.5vw,40px);line-height:1.2;overflow-wrap:normal}
+ .conference-title{padding:20px 14px}.conference-title h2{font-size:22px}
+ .schedule-table th{font-size:15px}.schedule-table td{font-size:14px}
+ .team-schedule-table :is(th,td){padding:12px 4px}
+ .personal-picks .conference-tabs button{padding:14px 8px}
+}
+.personal-picks #pick-conferences th:first-child{width:68px}
+.conference table :is(th,td){text-align:center}
+.conference .roster-table :is(th,td):nth-child(2),.conference .game-stats-table :is(th,td):first-child,.conferences table :is(th,td):nth-child(2){text-align:left}
+body,main,.roster-table,.schedule-table,.game-stats-table{font-family:'Montserrat',sans-serif}
+/* Readable text tints of the conference colours on slate table rows. */
+#conference-panel-East .team-picker-name{color:#dba3ae!important}
+#conference-panel-West .team-picker-name{color:#a7d3b3!important}

@@ -1,5 +1,6 @@
 """Generate a portable static site: python export_static.py --output dist."""
 import argparse
+import hashlib
 import json
 import os
 import shutil
@@ -104,6 +105,14 @@ def main():
         if url.startswith('/team/'):soup.body['data-page']='team'
         if url=='/standings': soup.body['data-page']='standings'
         if url=='/': personalize(soup, source.standings('Regular Season')['data'], source.nba.season)
+        # Content versions update cached assets for returning visitors and work offline.
+        for element in soup.select('[href], [src]'):
+            attr='href' if element.has_attr('href') else 'src'
+            asset=urlsplit(element[attr])
+            if asset.path.startswith('assets/'):
+                asset_file=stage/asset.path
+                if asset_file.is_file():
+                    element[attr]=asset.path+'?v='+hashlib.sha256(asset_file.read_bytes()).hexdigest()[:12]
         parsed=urlsplit(url);name=filename(parsed.path,parse_qs(parsed.query))
         (stage/name).write_text(str(soup));count+=1
         if count%25==0:print(f'Generated {count} pages',flush=True)
