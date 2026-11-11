@@ -106,3 +106,7 @@ main{padding-left:72px;padding-right:max(72px,calc(env(safe-area-inset-right) + 
 .sticky-brand-mark{left:20px}
 .live-menu{right:max(12px,env(safe-area-inset-right))}
 @media(max-width:800px){main{padding-left:60px;padding-right:max(68px,calc(env(safe-area-inset-right) + 56px))}.sticky-brand-mark{left:12px}.live-menu{right:max(8px,env(safe-area-inset-right))}}
+
+/* Narrower content gutters; floating control positions remain unchanged. */
+main{padding-left:64px;padding-right:max(64px,calc(env(safe-area-inset-right) + 52px))}
+@media(max-width:800px){main{padding-left:48px;padding-right:max(48px,calc(env(safe-area-inset-right) + 40px))}}
