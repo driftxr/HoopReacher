@@ -1,0 +1,17 @@
+/* The ribbon wipes vertically; the menu appears without scaling or fading. */
+.site-ribbon{clip-path:inset(0 0 0 0);transform:none;opacity:1;visibility:visible;transition:clip-path 140ms ease-out}
+.navigation-scrolled .site-ribbon{clip-path:inset(0 0 100% 0);transform:none;opacity:1;visibility:visible;pointer-events:none}
+.live-menu,.navigation-scrolled .live-menu{transform:none;transition:none}
+.navigation-scrolled .live-menu{z-index:120}
+.site-ribbon .site-brand{margin-left:52px;display:inline-flex}
+.site-brand .brand-hoop{color:#f0ece1}
+.site-brand .brand-reacher{color:#e5703d}
+.sticky-brand-mark{position:fixed;top:15px;left:28px;z-index:125;display:flex;width:36px;height:42px;align-items:center;justify-content:center}
+.sticky-brand-mark img{display:block;width:36px;height:42px}
+.sticky-brand-mark:focus-visible{outline:2px solid #e5703d;outline-offset:4px}
+.roster-table :is(th,td):nth-child(2){color:#f0ece1}
+.roster-table .player-name,.roster-table :is(th,td):is(:nth-child(5),:nth-child(6),:nth-child(7)),
+.roster-table th:is(:nth-child(2),:nth-child(5),:nth-child(6),:nth-child(7)) :is(.static-sort,.roster-column-sort){color:#e5703d}
+.roster-table .player-position{color:#f0ece1}
+@media(max-width:700px){.sticky-brand-mark{left:16px;top:12px;width:30px;height:35px}.sticky-brand-mark img{width:30px;height:35px}.site-ribbon .site-brand{margin-left:42px}}
+@media(prefers-reduced-motion:reduce){.site-ribbon{transition:none}}

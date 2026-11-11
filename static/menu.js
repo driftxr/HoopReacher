@@ -18,7 +18,7 @@ const ribbon = document.querySelector('.site-ribbon');
 if (ribbon && menu) {
   let previous;
   const syncNavigation = () => {
-    const scrolled = window.scrollY > 60;
+    const scrolled = window.scrollY > 0;
     if (scrolled === previous) return;
     previous = scrolled;
     const focused = document.activeElement;
