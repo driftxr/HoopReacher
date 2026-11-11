@@ -93,3 +93,10 @@ body,main,.roster-table,.schedule-table,.game-stats-table{font-family:'Montserra
 .live-menu[open] .line1,.live-menu[open] .line3{stroke-dasharray:90 207;stroke-dashoffset:-134}
 .live-menu[open] .line2{stroke-dasharray:1 60;stroke-dashoffset:-30}
 @media(prefers-reduced-motion:reduce){.menu-morph .line{transition:none}}
+
+/* Reserve a black gutter for the floating menu on every screen size. */
+main{padding-right:max(84px,calc(env(safe-area-inset-right) + 64px))}
+.live-menu .live-nav,.live-menu-label{background:#210A01;color:#fff}
+.live-menu .live-nav a{color:#fff;background:transparent}
+.live-menu .live-nav a:hover,.live-menu .live-nav a:focus-visible,.live-menu .live-nav a[aria-current="page"]{color:#e5703d;background:transparent}
+@media(max-width:800px){main{padding-right:max(80px,calc(env(safe-area-inset-right) + 64px))}}
