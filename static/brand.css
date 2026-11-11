@@ -82,3 +82,14 @@ body,main,.roster-table,.schedule-table,.game-stats-table{font-family:'Montserra
 
 /* Blend the header ribbon into the page background. */
 .site-ribbon{background:#080808}
+
+/* Orange hamburger morphs into an X without a button container. */
+.live-menu>summary,.live-menu>summary:hover,.live-menu[open]>summary,.live-menu>summary:focus-visible{background:transparent;border:0;border-radius:0;box-shadow:none;color:#e5703d;padding:0}
+.live-menu>summary:focus-visible{outline:2px solid #e5703d;outline-offset:4px}
+.menu-morph{display:block;width:48px;height:48px}
+.menu-morph .line{fill:none;stroke:#e5703d;stroke-width:6;transition:stroke-dasharray 600ms cubic-bezier(.4,0,.2,1),stroke-dashoffset 600ms cubic-bezier(.4,0,.2,1)}
+.menu-morph .line1,.menu-morph .line3{stroke-dasharray:60 207}
+.menu-morph .line2{stroke-dasharray:60 60}
+.live-menu[open] .line1,.live-menu[open] .line3{stroke-dasharray:90 207;stroke-dashoffset:-134}
+.live-menu[open] .line2{stroke-dasharray:1 60;stroke-dashoffset:-30}
+@media(prefers-reduced-motion:reduce){.menu-morph .line{transition:none}}

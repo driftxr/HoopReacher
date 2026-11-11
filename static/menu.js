@@ -2,6 +2,9 @@
 const menu = document.querySelector('.live-menu');
 const menuButton = menu?.querySelector('summary');
 if (menu && menuButton) {
+  const syncMenuState = () => menuButton.setAttribute('aria-expanded', String(menu.open));
+  menu.addEventListener('toggle', syncMenuState);
+  syncMenuState();
   document.addEventListener('click', (event) => {
     if (menu.open && !menuButton.contains(event.target)) menu.open = false;
   });
