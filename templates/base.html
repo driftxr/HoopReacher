@@ -6,5 +6,5 @@
 <header><div class="eyebrow">THE SEASON / {{ season }}</div><h1>{{ title }}</h1></header>
 {% for error in errors %}<p class="status error" role="status">{{ error }}</p>{% endfor %}
 {% block content %}{% endblock %}
-<footer class="notes"><p>Source: <a href="https://www.espn.com/nba/">ESPN</a>. Standings, rosters, schedules, scores and player averages refresh hourly.</p><p>Last successful update{% if updated %}: {{ updated }}{% else %}: none yet{% endif %}.</p></footer>
+<footer class="notes"><p>Source: <a href="https://www.espn.com/nba/">ESPN</a>. Standings, rosters, schedules, scores and player averages refresh hourly.</p><p>Last successful update{% if updated %}: {{ updated }}{% else %}: none yet{% endif %}.</p><p class="ownership-note">NBA Team names and the NBA name are trademarks &amp; property of their respective owners (NBA, respective teams, and ESPN) and not HoopReacher Consulting. We present them here for purely educational purposes. All HoopReacher branding and logo's are the property of HoopReacher Consulting. Use without license or authorization is expressly prohibited.</p></footer>
 </main><script src="{{ url_for('static',filename='menu.js',v='mobile-1') }}" defer></script></body></html>
