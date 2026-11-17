@@ -6,7 +6,7 @@ from zoneinfo import ZoneInfo
 from flask import Flask, abort, render_template, request
 from data import NBA, Cache, PICKS, TEAMS, BY_ID, STANDINGS_TTL, SCORES_TTL
 
-from mvp import LADDER_COLUMNS, MVP_TTL, PLAYER_COLUMNS, eligible, seed_rows, mvp_team
+from mvp import LADDER_COLUMNS, MVP_TTL, PLAYER_COLUMNS, abbreviated_player, eligible, mvp_team, seed_rows
 
 EASTERN = ZoneInfo('America/Toronto')
 
@@ -100,7 +100,7 @@ def create_app(nba=None):
         if player_id is None:
             return page('mvp_ladder.html', 'MVP Ladder', [result], MVP_TTL,
                         rows=rows, columns=LADDER_COLUMNS, eligible=eligible,
-                        seed=not result['data'], mvp_team=mvp_team)
+                        seed=not result['data'], mvp_team=mvp_team, abbreviated_player=abbreviated_player)
         player = next((row for row in rows if row['id'] == player_id and eligible(row)), None)
         if player is None:
             abort(404)

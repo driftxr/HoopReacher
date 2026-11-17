@@ -111,8 +111,21 @@ main{padding-left:72px;padding-right:max(72px,calc(env(safe-area-inset-right) + 
 main{padding-left:64px;padding-right:max(64px,calc(env(safe-area-inset-right) + 52px))}
 @media(max-width:800px){main{padding-left:48px;padding-right:max(48px,calc(env(safe-area-inset-right) + 40px))}}
 
-.mvp-ladder-table table :is(thead th:first-child, tbody th[scope="row"]) { text-align: left; }
-.mvp-ladder-table .static-sort { display: inline-block; width: 100%; }
+.mvp-ladder-table table :is(thead th:first-child, tbody th[scope="row"]) {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 1;
+  background: var(--table-background);
+  box-shadow: 1px 0 0 #f0ece133;
+  text-align: left;
+}
+.mvp-ladder-name {
+  display: block;
+  max-inline-size: clamp(6.5rem, 30vw, 15rem);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.mvp-table .static-sort { display: inline-block; width: 100%; }
 .mvp-player-name sup { color: #d1cfca; }
 .mvp-team-color[data-conference="East"] { color: color-mix(in srgb, var(--conference-east) 35%, var(--table-text)); }
 .mvp-team-color[data-conference="West"] { color: color-mix(in srgb, var(--conference-west) 35%, var(--table-text)); }

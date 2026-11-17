@@ -10,3 +10,21 @@
 <div class="pick-actions mvp-export"><button type="button" data-mvp-export="{{ filename }}">Export</button></div>
 <script src="{{ url_for('static', filename='mvp-export.js') }}" defer></script>
 {% endmacro %}
+
+
+{% macro sortable_headers(columns, text_columns, active_column=none, direction='ascending') %}
+<thead><tr>
+  {% for key in columns %}
+  {% set active = key == active_column %}
+  <th scope="col"{% if active %} aria-sort="{{ direction }}"{% endif %}>
+    <button class="static-sort" type="button" data-column="{{ loop.index0 }}" data-default="{{ 'asc' if key in text_columns else 'desc' }}" aria-label="Sort by {{ key }}">{{ key }} <span aria-hidden="true">{{ ('↑' if direction == 'ascending' else '↓') if active else '↕' }}</span></button>
+  </th>
+  {% endfor %}
+</tr></thead>
+{% endmacro %}
+
+{% macro sortable_stats(row, columns) %}
+{% for key in columns %}
+<td{% if row[key] is not none %} data-sort-value="{{ row[key] }}"{% endif %}>{{ cell(row, key) }}</td>
+{% endfor %}
+{% endmacro %}

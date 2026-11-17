@@ -35,6 +35,13 @@ def mvp_team(abbr):
     return {'name': team['full_name'], 'conference': 'East' if code in EASTERN_TEAMS else 'West'}
 
 
+def abbreviated_player(name, position):
+    first, separator, last = name.partition(' ')
+    if separator and not first.endswith('.'):
+        name = f'{first[0]}. {last}'
+    return f'{name} - {position}' if position else name
+
+
 def eligible(row):
     return not (row['G'] < 8 and row['MP'] < 12)
 
