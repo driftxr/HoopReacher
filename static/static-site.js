@@ -13,7 +13,9 @@
       const direction = th.getAttribute('aria-sort') === 'ascending' ? 'desc' : th.getAttribute('aria-sort') === 'descending' ? 'asc' : button.dataset.default;
       const column = Number(button.dataset.column);
       const value = row => {
-        const text = row.cells[column]?.textContent.trim() ?? '';
+        const cell = row.cells[column];
+        if (cell?.dataset.sortValue !== undefined) return Number(cell.dataset.sortValue);
+        const text = cell?.textContent.trim() ?? '';
         if (!text || text === '—' || text === '—–—') return null;
         if (text === 'Match') return 0;
         if (/^\d+[–-]\d+$/.test(text)) { const [w,l] = text.split(/[–-]/).map(Number); return w * 1000 - l; }
@@ -23,7 +25,7 @@
       const rows = Array.from(table.tBodies[0].rows);
       rows.sort((a,b) => { const av=value(a),bv=value(b); if(av===null||bv===null)return av===null?(bv===null?0:1):-1; return (typeof av==='number' && typeof bv==='number'?av-bv:String(av).localeCompare(String(bv)))*(direction==='asc'?1:-1); });
       rows.forEach(row => table.tBodies[0].append(row));
-      table.querySelectorAll('th').forEach(header => { header.setAttribute('aria-sort','none'); const icon=header.querySelector('span[aria-hidden]'); if(icon)icon.textContent='↕'; });
+      table.querySelectorAll('thead th').forEach(header => { header.setAttribute('aria-sort','none'); const icon=header.querySelector('span[aria-hidden]'); if(icon)icon.textContent='↕'; });
       th.setAttribute('aria-sort',direction==='asc'?'ascending':'descending');const icon=button.querySelector('span');if(icon)icon.textContent=direction==='asc'?'↑':'↓';
     }));
   });

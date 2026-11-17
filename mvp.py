@@ -5,7 +5,7 @@ import unicodedata
 from collections import defaultdict
 from pathlib import Path
 
-from data import BY_ID, require
+from data import BY_ID, TEAMS, require
 
 MVP_TTL = 12 * 60 * 60
 STATS = {
@@ -21,6 +21,18 @@ LADDER_COLUMNS = ['Player', 'Team', *COLUMNS, 'AVG']
 PLAYER_COLUMNS = ['Opp', *COLUMNS, 'MVP']
 WEIGHTS = {'PTS': 1, 'BLK': 4, 'STL': 4, 'AST': 2, 'TRB': 1, 'TOV': -2,
            'FG': 2, 'FGA': -1, 'FT': 1, 'FTA': -1, '3P': 1}
+
+
+EASTERN_TEAMS = frozenset('ATL BOS BKN CHA CHI CLE DET IND MIA MIL NYK ORL PHI TOR WAS'.split())
+TEAM_ALIASES = {'BRK': 'BKN', 'CHO': 'CHA', 'PHO': 'PHX'}
+
+
+def mvp_team(abbr):
+    code = TEAM_ALIASES.get(abbr, abbr)
+    team = TEAMS.get(code)
+    if team is None:
+        return {'name': abbr, 'conference': ''}
+    return {'name': team['full_name'], 'conference': 'East' if code in EASTERN_TEAMS else 'West'}
 
 
 def eligible(row):

@@ -2,18 +2,27 @@
 {% from 'mvp_table.html' import cell, export_button %}
 {% block content %}
 {% if seed %}<p role="status">Showing the supplied season snapshot until ESPN matchup data is available.</p>{% endif %}
-<section class="conference table-wrap mvp-table">
+<section class="conference table-wrap mvp-table mvp-ladder-table">
   <table id="mvp-stats" aria-label="MVP Ladder">
-    <thead><tr>{% for key in columns %}<th scope="col">{{ key }}</th>{% endfor %}</tr></thead>
+    <thead><tr>
+      {% for key in columns %}
+      {% set active = key == 'AVG' and not seed %}
+      <th scope="col"{% if active %} aria-sort="descending"{% endif %}>
+        <button class="static-sort" type="button" data-column="{{ loop.index0 }}" data-default="{{ 'asc' if key in ('Player', 'Team') else 'desc' }}" aria-label="Sort by {{ key }}">{{ key }} <span aria-hidden="true">{{ '↓' if active else '↕' }}</span></button>
+      </th>
+      {% endfor %}
+    </tr></thead>
     <tbody>
       {% for row in rows %}
       <tr>
         <th scope="row">{% if eligible(row) %}<a class="team-link" href="{{ url_for('mvp_ladder', player_id=row.id) }}">{{ row.Player }}</a>{% else %}{{ row.Player }}{% endif %}</th>
-        {% for key in columns[1:] %}<td>{{ cell(row, key) }}</td>{% endfor %}
+        <td class="mvp-team-color" data-conference="{{ mvp_team(row.Team).conference }}">{{ row.Team }}</td>
+        {% for key in columns[2:] %}<td{% if row[key] is not none %} data-sort-value="{{ row[key] }}"{% endif %}>{{ cell(row, key) }}</td>{% endfor %}
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </section>
 {{ export_button('mvp-ladder') }}
+<script src="{{ url_for('static', filename='static-site.js') }}" defer></script>
 {% endblock %}

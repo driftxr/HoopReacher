@@ -107,7 +107,8 @@ def main():
         footer=soup.select_one('footer.notes')
         if footer and not url.startswith('/mvp-ladder'):
             p=footer.find('p');p.clear();p.append('Source: ESPN. Updates are scheduled hourly; published data may lag live games.')
-        script=soup.new_tag('script',src='assets/static-site.js',defer=True);soup.body.append(script)
+        if not soup.select_one('script[src="assets/static-site.js"]'):
+            script=soup.new_tag('script',src='assets/static-site.js',defer=True);soup.body.append(script)
         if daily_games is not None:soup.body['data-page']='daily'
         if url.startswith('/team/'):soup.body['data-page']='team'
         if url=='/standings': soup.body['data-page']='standings'

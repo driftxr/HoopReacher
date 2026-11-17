@@ -4,8 +4,9 @@
 <a class="back-link" href="{{ url_for('mvp_ladder') }}">← Back to MVP Ladder</a>
 <header>
   <div class="eyebrow">THE SEASON / {{ season }}</div>
-  <h1 class="mvp-player-name">{{ player.name }}{% if player.position %} <sup>– {{ player.position|upper }}</sup>{% endif %}</h1>
-  <p class="mvp-player-team">{{ player.Team|upper }}</p>
+  <h1 class="mvp-player-name">{{ player.name }}{% if player.position %} <sup>{{ player.position|upper }}</sup>{% endif %}</h1>
+  {% set team_info = mvp_team(player.Team) %}
+  <p class="mvp-player-team mvp-team-color" data-conference="{{ team_info.conference }}">{{ team_info.name|upper }}</p>
 </header>
 {% endblock %}
 {% block content %}
@@ -15,7 +16,7 @@
     <thead><tr>{% for key in columns %}<th scope="col">{{ key }}</th>{% endfor %}</tr></thead>
     <tbody>
       {% for row in player.splits %}
-      <tr><th scope="row">{{ row.Opp }}</th>{% for key in columns[1:] %}<td>{{ cell(row, key) }}</td>{% endfor %}</tr>
+      <tr><th scope="row" class="mvp-team-color" data-conference="{{ mvp_team(row.Opp).conference }}">{{ row.Opp }}</th>{% for key in columns[1:] %}<td>{{ cell(row, key) }}</td>{% endfor %}</tr>
       {% endfor %}
       <tr class="mvp-summary"><th scope="row">Averages</th>{% for key in columns[1:] %}<td>{{ cell(player, key) }}</td>{% endfor %}</tr>
     </tbody>

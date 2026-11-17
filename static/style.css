@@ -318,7 +318,7 @@ thead,tr.match,tr.alternative,tr.alternative.match,tbody tr:hover{background:var
 @media(prefers-reduced-motion:reduce){.team-switch a{transition:none}}
 
 /* Unified warm dark theme. */
-:root{color-scheme:dark;--site-background:#080808;--table-background:#3b444b;--table-text:#f0ece1;--accent:#dd4e1e;--accent-hover:#e5703d;--accent-blue:#dd4e1e;--accent-red:#e5703d}
+:root{color-scheme:dark;--site-background:#080808;--table-background:#3b444b;--table-text:#f0ece1;--accent:#dd4e1e;--accent-hover:#e5703d;--conference-east:#533138;--conference-west:#4d835c;--accent-blue:#dd4e1e;--accent-red:#e5703d}
 html,body{background:#080808;background-image:none;color:#f0ece1}
 h1,h2,h3,.intro,.notes,.notes h2,label,.panel-status,.personal-picks #pick-status{color:#f0ece1}
 .eyebrow,.notes a,.back-link,.team-link,.live-nav a{color:#e5703d}
@@ -398,12 +398,12 @@ main{padding-top:112px}
 /* Match standings and personal-picks page headings. */
 body[data-page="standings"] main>header h1,body[data-page="daily"] main>header h1{font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:-2px}
 /* Conference-specific separators between table titles and column headings. */
-[data-conference="East"]>.conference-title,#conference-panel-East>.conference-title{border-bottom:1px solid #533138}
-[data-conference="West"]>.conference-title,#conference-panel-West>.conference-title{border-bottom:1px solid #4d835c}
+[data-conference="East"]>.conference-title,#conference-panel-East>.conference-title{border-bottom:1px solid var(--conference-east)}
+[data-conference="West"]>.conference-title,#conference-panel-West>.conference-title{border-bottom:1px solid var(--conference-west)}
 
 /* Full conference title-row fills replace the divider-only accents. */
-[data-conference="East"]>.conference-title,#conference-panel-East>.conference-title{background:#533138;border-top:0;border-bottom-color:#533138;color:#f0ece1}
-[data-conference="West"]>.conference-title,#conference-panel-West>.conference-title{background:#4d835c;border-top:0;border-bottom-color:#4d835c;color:#f0ece1}
+[data-conference="East"]>.conference-title,#conference-panel-East>.conference-title{background:var(--conference-east);border-top:0;border-bottom-color:var(--conference-east);color:#f0ece1}
+[data-conference="West"]>.conference-title,#conference-panel-West>.conference-title{background:var(--conference-west);border-top:0;border-bottom-color:var(--conference-west);color:#f0ece1}
 [data-conference]>.conference-title :is(h2,span),#pick-conferences .conference-title :is(h2,span){color:#f0ece1}
 
 /* Borderless stat cards, including mobile dividers and top accents. */
@@ -447,15 +447,15 @@ body[data-page="standings"] [role="tabpanel"][hidden]{display:none!important}
 @media(prefers-reduced-motion:reduce){.standings-tabs button{transition:none}}
 
 /* Conference tabs share the exact fill of their title rows. */
-.personal-picks .conference-tabs #conference-tab-East,.personal-picks .conference-tabs #conference-tab-East:hover,.standings-tabs #standings-tab-East,.standings-tabs #standings-tab-East:hover{background:#533138;color:#f0ece1}
-.personal-picks .conference-tabs #conference-tab-West,.personal-picks .conference-tabs #conference-tab-West:hover,.standings-tabs #standings-tab-West,.standings-tabs #standings-tab-West:hover{background:#4d835c;color:#f0ece1}
+.personal-picks .conference-tabs #conference-tab-East,.personal-picks .conference-tabs #conference-tab-East:hover,.standings-tabs #standings-tab-East,.standings-tabs #standings-tab-East:hover{background:var(--conference-east);color:#f0ece1}
+.personal-picks .conference-tabs #conference-tab-West,.personal-picks .conference-tabs #conference-tab-West:hover,.standings-tabs #standings-tab-West,.standings-tabs #standings-tab-West:hover{background:var(--conference-west);color:#f0ece1}
 .personal-picks .conference-tabs button,.standings-tabs button{border:0;box-shadow:none}
 .personal-picks .conference-tabs button[aria-selected="true"],.standings-tabs button[aria-selected="true"]{font-weight:700}
 
 /* Inactive conference tabs recede into the page until hovered. */
 .personal-picks .conference-tabs #conference-tab-East[aria-selected="false"],.personal-picks .conference-tabs #conference-tab-West[aria-selected="false"],.standings-tabs #standings-tab-East[aria-selected="false"],.standings-tabs #standings-tab-West[aria-selected="false"]{background:var(--site-background);color:#f0ece1}
-.personal-picks .conference-tabs #conference-tab-East[aria-selected="false"]:hover,.personal-picks .conference-tabs #conference-tab-East[aria-selected="false"]:focus-visible,.standings-tabs #standings-tab-East[aria-selected="false"]:hover,.standings-tabs #standings-tab-East[aria-selected="false"]:focus-visible{background:#533138}
-.personal-picks .conference-tabs #conference-tab-West[aria-selected="false"]:hover,.personal-picks .conference-tabs #conference-tab-West[aria-selected="false"]:focus-visible,.standings-tabs #standings-tab-West[aria-selected="false"]:hover,.standings-tabs #standings-tab-West[aria-selected="false"]:focus-visible{background:#4d835c}
+.personal-picks .conference-tabs #conference-tab-East[aria-selected="false"]:hover,.personal-picks .conference-tabs #conference-tab-East[aria-selected="false"]:focus-visible,.standings-tabs #standings-tab-East[aria-selected="false"]:hover,.standings-tabs #standings-tab-East[aria-selected="false"]:focus-visible{background:var(--conference-east)}
+.personal-picks .conference-tabs #conference-tab-West[aria-selected="false"]:hover,.personal-picks .conference-tabs #conference-tab-West[aria-selected="false"]:focus-visible,.standings-tabs #standings-tab-West[aria-selected="false"]:hover,.standings-tabs #standings-tab-West[aria-selected="false"]:focus-visible{background:var(--conference-west)}
 
 /* Daily Schedule column headings. */
 body[data-page="daily"] thead,body[data-page="daily"] thead tr,body[data-page="daily"] thead th{background:#C86236;color:#080808!important}
