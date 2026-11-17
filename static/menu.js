@@ -42,10 +42,10 @@ if (ribbon && menu) {
 // Highlight the current section on both generated pages and Python routes.
 const pagePath = location.pathname.split('/').pop() || 'index.html';
 const originPage = new URLSearchParams(location.search).get('back');
-const section = /^(today|game)([.-]|$)/.test(pagePath) ? 'today' : /^standings/.test(pagePath) || (/^team/.test(pagePath) && originPage === 'standings') ? 'standings' : 'home';
+const section = /\/mvp-ladder(?:[/.]|$)/.test(location.pathname) || /^mvp-player-/.test(pagePath) ? 'mvp' : /^(today|game)([.-]|$)/.test(pagePath) ? 'today' : /^standings/.test(pagePath) || (/^team/.test(pagePath) && originPage === 'standings') ? 'standings' : 'home';
 for (const link of document.querySelectorAll('.site-ribbon nav a,.live-nav a')) {
   const destination = new URL(link.href).pathname.split('/').pop();
-  const target = /^standings/.test(destination) ? 'standings' : /^today/.test(destination) ? 'today' : 'home';
+  const target = /^mvp-ladder/.test(destination) ? 'mvp' : /^standings/.test(destination) ? 'standings' : /^today/.test(destination) ? 'today' : 'home';
   if (target === section) link.setAttribute('aria-current','page');
   else link.removeAttribute('aria-current');
 }

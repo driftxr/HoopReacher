@@ -261,16 +261,16 @@ tr[hidden]{display:none!important}
 
 .personal-picks,.personal-picks :is(h1,h2,p,span,strong,small,label,button,select,table,th,td,a){font-family:'Montserrat',sans-serif}
 .personal-picks h1{font-weight:700;letter-spacing:-2px}
-.personal-picks .pick-actions{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 12px}
+:is(.personal-picks .pick-actions, .mvp-export){display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 12px}
 .personal-picks select{max-width:260px;width:100%;padding:10px;background:#121b2b;color:#e8edf7;border:1px solid #52627c;border-radius:8px;font-size:13px}
 .personal-picks #pick-status{color:#a8b9d5;line-height:1.6;margin-bottom:24px}
 .personal-picks .intro{font-weight:600}
 
 /* Quiet rectangular backup controls at the bottom of the home page. */
-.personal-picks .pick-actions{margin:32px 0 0}
-.personal-picks .pick-actions button{background:transparent;border:0;border-radius:0;color:#e8edf7;padding:14px 22px;box-shadow:none;transition:background-color 200ms ease}
-.personal-picks .pick-actions button:hover,.personal-picks .pick-actions button:focus-visible{background:#121b2b}
-@media(prefers-reduced-motion:reduce){.personal-picks .pick-actions button{transition:none}}
+:is(.personal-picks .pick-actions, .mvp-export){margin:32px 0 0}
+:is(.personal-picks .pick-actions, .mvp-export) button{background:transparent;border:0;border-radius:0;color:#e8edf7;padding:14px 22px;box-shadow:none;transition:background-color 200ms ease}
+:is(.personal-picks .pick-actions, .mvp-export) button:hover,:is(.personal-picks .pick-actions, .mvp-export) button:focus-visible{background:#121b2b}
+@media(prefers-reduced-motion:reduce){:is(.personal-picks .pick-actions, .mvp-export) button{transition:none}}
 
 /* Personal-pick conference tabs share one full-width table area. */
 .personal-picks #pick-conferences{display:block}
@@ -304,7 +304,7 @@ thead,tr.match,tr.alternative,tr.alternative.match,tbody tr:hover{background:var
 .personal-picks .conference-tabs{background:var(--site-background)}
 .personal-picks .conference-tabs button{color:var(--table-text)}
 .personal-picks .conference-tabs button[aria-selected="true"],.personal-picks .conference-tabs button:hover{background:var(--table-background);color:var(--table-text)}
-.personal-picks .pick-actions button:hover,.personal-picks .pick-actions button:focus-visible{background:var(--table-background)}
+:is(.personal-picks .pick-actions, .mvp-export) button:hover,:is(.personal-picks .pick-actions, .mvp-export) button:focus-visible{background:var(--table-background)}
 .team-switch,.live-menu>summary,.live-menu .live-nav,.live-menu-label{background:var(--table-background);color:var(--table-text)}
 .table-wrap{scrollbar-color:#788990 var(--table-background)}
 
@@ -350,8 +350,8 @@ table th[aria-sort="ascending"] :is(button,a),table th[aria-sort="descending"] :
 .personal-picks .conference-tabs button[aria-selected="true"],.team-switch a[aria-current="page"]{background:#3b444b;color:#e5703d}
 .personal-picks .conference-tabs button:hover,.team-switch a:hover{background:#3b444b;color:#e5703d}
 .personal-picks .conference-tabs button:focus-visible,.team-switch a:focus-visible{outline-color:#e5703d;outline-offset:-4px}
-.personal-picks .pick-actions button{background:transparent;color:#f0ece1}
-.personal-picks .pick-actions button:hover,.personal-picks .pick-actions button:focus-visible{background:#3b444b;color:#e5703d}
+:is(.personal-picks .pick-actions, .mvp-export) button{background:transparent;color:#f0ece1}
+:is(.personal-picks .pick-actions, .mvp-export) button:hover,:is(.personal-picks .pick-actions, .mvp-export) button:focus-visible{background:#3b444b;color:#e5703d}
 .status,.status.error{background:#3b444b;color:#f0ece1;border-left-color:#dd4e1e}
 .table-wrap{scrollbar-color:#e5703d #3b444b}
 ::selection{background:#dd4e1e;color:#080808}
@@ -460,3 +460,9 @@ body[data-page="standings"] [role="tabpanel"][hidden]{display:none!important}
 /* Daily Schedule column headings. */
 body[data-page="daily"] thead,body[data-page="daily"] thead tr,body[data-page="daily"] thead th{background:#C86236;color:#080808!important}
 body[data-page="daily"] thead :is(a,button,span){color:#080808!important}
+
+.mvp-table tbody th { border-top: 1px solid #60686d; font-size: inherit; text-transform: none; letter-spacing: normal; }
+main > header h1.mvp-player-name { color: #e5703d; font-weight: 800; }
+.mvp-player-name sup { font-size: .45em; vertical-align: super; }
+.mvp-player-team { font-size: 1rem; font-weight: 700; }
+.mvp-summary { font-weight: 700; }

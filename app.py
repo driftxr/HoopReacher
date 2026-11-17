@@ -6,6 +6,8 @@ from zoneinfo import ZoneInfo
 from flask import Flask, abort, render_template, request
 from data import NBA, Cache, PICKS, TEAMS, BY_ID, STANDINGS_TTL, SCORES_TTL
 
+from mvp import LADDER_COLUMNS, MVP_TTL, PLAYER_COLUMNS, eligible, seed_rows
+
 EASTERN = ZoneInfo('America/Toronto')
 
 def prediction_rows(raw):
@@ -89,6 +91,21 @@ def create_app(nba=None):
         return page('home.html','NBA '+season+' Predictions',[result],STANDINGS_TTL,
             conferences=conferences,matches=matches,compared=compared,sort=sort,
             direction='desc' if reverse else 'asc')
+
+    @app.get('/mvp-ladder')
+    @app.get('/mvp-ladder/<player_id>')
+    def mvp_ladder(player_id=None):
+        result = nba.mvp()
+        rows = result['data'] or seed_rows(season)
+        if player_id is None:
+            return page('mvp_ladder.html', 'MVP Ladder', [result], MVP_TTL,
+                        rows=rows, columns=LADDER_COLUMNS, eligible=eligible,
+                        seed=not result['data'])
+        player = next((row for row in rows if row['id'] == player_id and eligible(row)), None)
+        if player is None:
+            abort(404)
+        return page('mvp_player.html', player['name'], [result], MVP_TTL,
+                    player=player, columns=PLAYER_COLUMNS)
 
     @app.get('/standings')
     def standings():

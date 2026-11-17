@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% from 'mvp_table.html' import cell, export_button %}
+{% block content %}
+{% if seed %}<p role="status">Showing the supplied season snapshot until ESPN matchup data is available.</p>{% endif %}
+<section class="conference table-wrap mvp-table">
+  <table id="mvp-stats" aria-label="MVP Ladder">
+    <thead><tr>{% for key in columns %}<th scope="col">{{ key }}</th>{% endfor %}</tr></thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <th scope="row">{% if eligible(row) %}<a class="team-link" href="{{ url_for('mvp_ladder', player_id=row.id) }}">{{ row.Player }}</a>{% else %}{{ row.Player }}{% endif %}</th>
+        {% for key in columns[1:] %}<td>{{ cell(row, key) }}</td>{% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{{ export_button('mvp-ladder') }}
+{% endblock %}

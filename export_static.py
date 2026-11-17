@@ -14,14 +14,16 @@ from flask import render_template
 from app import create_app, EASTERN
 from personalize import personalize
 from data import NBA, Cache, TEAMS
+from mvp import eligible, seed_rows
 
 ROOT=Path(__file__).parent
 
 def filename(path, query):
     if path=='/': return 'index.html'
-    if path in ('/standings','/today'): return path[1:]+'.html'
+    if path in ('/standings','/today','/mvp-ladder'): return path[1:]+'.html'
     if path.startswith('/team/'):
         return 'team-'+path.split('/')[-1]+('-schedule' if query.get('view',[''])[0]=='schedule' else '')+'.html'
+    if path.startswith('/mvp-ladder/'): return 'mvp-player-'+path.split('/')[-1]+'.html'
     if path.startswith('/game/'): return 'game-'+path.split('/')[-1]+'.html'
     if path.startswith('/static/'): return 'assets/'+path.split('/')[-1]
     raise ValueError('Unmapped local URL: '+path)
@@ -42,11 +44,15 @@ class Snapshot:
     def roster(self,*a):return self.call('roster',*a)
     def averages(self,*a):return self.call('averages',*a)
     def game(self,*a):return self.call('game',*a)
+    def mvp(self):
+        return self.call('mvp')
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--output',default='dist');parser.add_argument('--refresh',action='store_true',help='Refresh all ESPN data for this publication');args=parser.parse_args()
     target=Path(args.output).resolve();stage=target.with_name(target.name+'-building')
     stage.mkdir(parents=True,exist_ok=True)
+    for obsolete in stage.glob('mvp-player-*.html'):
+        obsolete.unlink()
     shutil.copytree(ROOT/'static',stage/'assets',dirs_exist_ok=True)
     cache=Cache(os.getenv('NBA_CACHE',str(ROOT/'instance/nba.sqlite3')))
     if args.refresh:
@@ -72,7 +78,8 @@ def main():
             if response.status_code!=200:raise RuntimeError(f'{url}: {response.status_code}')
             html=response.data.decode()
         soup=BeautifulSoup(html,'html.parser')
-        for meta in soup.select('meta[http-equiv="refresh"]'):meta.decompose()
+        if not url.startswith('/mvp-ladder'):
+            for meta in soup.select('meta[http-equiv="refresh"]'):meta.decompose()
         for element in soup.select('[href], [src]'):
             attr='href' if element.has_attr('href') else 'src';link=element[attr]
             if not link.startswith('/'):continue
@@ -98,7 +105,7 @@ def main():
             for row,g in zip(soup.select('tbody tr'),selected):row['data-status']=str(g['gameStatus'])
         for field in soup.select('input[name="back"], input[name="view"]'):field.decompose()
         footer=soup.select_one('footer.notes')
-        if footer:
+        if footer and not url.startswith('/mvp-ladder'):
             p=footer.find('p');p.clear();p.append('Source: ESPN. Updates are scheduled hourly; published data may lag live games.')
         script=soup.new_tag('script',src='assets/static-site.js',defer=True);soup.body.append(script)
         if daily_games is not None:soup.body['data-page']='daily'
@@ -118,6 +125,11 @@ def main():
         if count%25==0:print(f'Generated {count} pages',flush=True)
 
     save('/');save('/standings')
+    ladder = source.mvp()['data'] or seed_rows(source.nba.season)
+    save('/mvp-ladder')
+    for player in ladder:
+        if eligible(player):
+            save('/mvp-ladder/'+player['id'])
     with app.test_request_context('/today'):
         daily=render_template('schedule.html',title='Daily Schedule',season=source.nba.season,phase='Regular Season',errors=[],updated=datetime.fromtimestamp(source.schedule()['updated'],EASTERN).strftime('%b %d, %Y · %I:%M %p %Z'),interval=3600,games=games,date=datetime.now(EASTERN).date().isoformat(),team=None)
     save('/today',daily,games)
@@ -137,6 +149,9 @@ def main():
             if not (stage/u.path).is_file():raise RuntimeError(f'Broken link in {path.name}: {link}')
     target.mkdir(parents=True,exist_ok=True)
     shutil.copytree(stage,target,dirs_exist_ok=True)
+    for obsolete in target.glob('mvp-player-*.html'):
+        if not (stage/obsolete.name).exists():
+            obsolete.unlink()
     print(f'Export complete: {count} pages in {target}; stale sources: {len(source.warnings)}',flush=True)
 
 if __name__=='__main__':main()

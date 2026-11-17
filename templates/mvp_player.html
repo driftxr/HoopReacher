@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% from 'mvp_table.html' import cell, export_button %}
+{% block page_header %}
+<a class="back-link" href="{{ url_for('mvp_ladder') }}">← Back to MVP Ladder</a>
+<header>
+  <div class="eyebrow">THE SEASON / {{ season }}</div>
+  <h1 class="mvp-player-name">{{ player.name }}{% if player.position %} <sup>– {{ player.position|upper }}</sup>{% endif %}</h1>
+  <p class="mvp-player-team">{{ player.Team|upper }}</p>
+</header>
+{% endblock %}
+{% block content %}
+{% if player.splits %}
+<section class="conference table-wrap mvp-table">
+  <table id="mvp-stats" aria-label="{{ player.name }} opponent splits">
+    <thead><tr>{% for key in columns %}<th scope="col">{{ key }}</th>{% endfor %}</tr></thead>
+    <tbody>
+      {% for row in player.splits %}
+      <tr><th scope="row">{{ row.Opp }}</th>{% for key in columns[1:] %}<td>{{ cell(row, key) }}</td>{% endfor %}</tr>
+      {% endfor %}
+      <tr class="mvp-summary"><th scope="row">Averages</th>{% for key in columns[1:] %}<td>{{ cell(player, key) }}</td>{% endfor %}</tr>
+    </tbody>
+  </table>
+</section>
+{{ export_button('mvp-player-' ~ player.id) }}
+{% else %}
+<p role="status">Opponent splits will appear when ESPN matchup data is available.</p>
+{% endif %}
+{% endblock %}

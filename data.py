@@ -177,6 +177,12 @@ class NBA:
             return rows
         return self.cached(f'averages:{team}', SCORES_TTL, load)
 
+    def mvp(self):
+        from mvp import MVP_TTL, build_ladder
+
+        # This snapshot has its own cadence, independent of hourly publication refreshes.
+        return self.cache.get(f'mvp-v1:{self.season}', MVP_TTL, lambda: build_ladder(self))
+
     def game(self, game_id):
         def load():
             data = self.fetch(BASE+'summary', event=game_id)
@@ -199,6 +205,7 @@ class NBA:
                             raise ValueError('Missing minutes for a played athlete')
                         row = dict(personId=int(p['id']), teamId=t['id'], firstName=p['displayName'], familyName='',
                             position=p.get('position',{}).get('abbreviation','G') if athlete.get('starter') else '',
+                            rosterPosition=p.get('position',{}).get('abbreviation',''),
                             played=played, comment=athlete.get('reason','DNP') if not played else '')
                         for label,key in [('MIN','minutes'),('PTS','points'),('REB','reboundsTotal'),('AST','assists'),('STL','steals'),('BLK','blocks'),('TO','turnovers')]:
                             row[key] = number(stats.get(label))

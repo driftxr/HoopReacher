@@ -1,0 +1,12 @@
+{% macro cell(row, key) -%}
+  {%- if key.endswith('%') -%}{{ row[key]|percent }}
+  {%- elif key in ['MP', 'FG', 'FGA', '3P', '3PA', 'FT', 'FTA', 'STL', 'BLK', 'TOV', 'TRB', 'AST', 'PTS', 'AVG', 'MVP'] -%}
+    {{ '%.1f'|format(row[key]) }}
+  {%- else -%}{{ row[key]|number }}
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro export_button(filename) %}
+<div class="pick-actions mvp-export"><button type="button" data-mvp-export="{{ filename }}">Export</button></div>
+<script src="{{ url_for('static', filename='mvp-export.js') }}" defer></script>
+{% endmacro %}
