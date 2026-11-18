@@ -1,4 +1,4 @@
 # HoopReacher
 
-Personalized NBA standings picks at https://hoopreacher.com/.
+Personalized NBA picks at https://hoopreacher.com/.
 
